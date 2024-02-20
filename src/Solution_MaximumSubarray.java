@@ -27,6 +27,34 @@ public class Solution_MaximumSubarray {
         return maxSum;
     }
 
+    // Kadane's algorithm, returning the subarray with max sum
+    public int[] maxSubArrayWithIndexes(int[] array) {
+        if (array.length == 0) {
+            return array;
+        }
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0;
+        int begin = 0, end = 0;
+        for (int i = 0; i < array.length; i++) {
+            int value = array[i];
+            if (value >= currentSum + value) {
+                currentSum = value;
+                begin = i;
+            } else {
+                currentSum = currentSum + value;
+            }
+
+            if (maxSum < currentSum) {
+                end = i;
+                maxSum = currentSum;
+            }
+        }
+        int size = end - begin + 1;
+        int[] subArray = new int[size];
+        System.arraycopy(array, begin, subArray, 0, size);
+        return subArray;
+    }
+    
     // Simple O(n^2) approach
     public int maxSubArray_Simple(int[] nums) {
         int maxSum = nums[0];
